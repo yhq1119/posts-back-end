@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const { ObjectId } = mongoose.Schema
 
-const blogSchema = new mongoose.Schema({
+const postSchema = new mongoose.Schema({
     title: {
         type: String,
         trim: true,
@@ -36,23 +36,17 @@ const blogSchema = new mongoose.Schema({
         data: Buffer,
         contentType: String
     },
-    categories: [{
-        type: ObjectId,
-        ref: 'Category',
-        required: true
-    }],
-    tags: [{
-        type: ObjectId,
-        ref: 'Tag',
-        required: true
-    }],
     postedBy: {
         type: ObjectId,
         ref: 'User'
+    },
+    hasExpired:{
+        type:Boolean,
+        default:false
     }
 }, { timestamps: true })
 
 
 
 
-module.exports = mongoose.model('blog', blogSchema)
+module.exports = mongoose.model('post', postSchema)

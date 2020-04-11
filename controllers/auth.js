@@ -13,17 +13,23 @@ exports.signup = (req, res) => {
             })
         }
 
-        const { name, email, password } = req.body
+        const { name, email, needHelp,needDesc,password } = req.body
+
         let username = shortId.generate()
         let profile = `${process.env.CLIENT_URL}/profile/${username}`
-
+        let needDonationHelp = needHelp
+        let needHelpDesc = needDesc
         let newUser = new User({
             name,
             email,
             password,
             profile,
-            username
+            needDonationHelp,
+            needHelpDesc,
+            username,
         })
+
+        console.log(JSON.stringify(newUser))
 
         newUser.save((err, success) => {
             if (err) {
@@ -31,9 +37,6 @@ exports.signup = (req, res) => {
                     error: err
                 })
             }
-            // res.json({
-            //     user:success
-            // })
             res.json({
                 message: 'Signup success! Please signin.'
             })
@@ -106,7 +109,6 @@ exports.authMiddleware = (req, res, next) => {
                     error: 'User not found'
                 })
             }
-
             req.profile = user
             next()
         })

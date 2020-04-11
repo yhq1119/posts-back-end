@@ -7,20 +7,16 @@ const mongoose = require('mongoose')
 require('dotenv').config()
 
 // bring routes
-const blogRoutes = require('./routes/blog')
+const postRoutes = require('./routes/post')
 const authRoutes = require('./routes/auth')
 const userRoutes = require('./routes/user')
-const tagRoutes = require('./routes/tag')
-const categoryRoutes = require('./routes/category')
-
-
 
 // app
 const app = express()
 
 // db
 mongoose.connect(
-    process.env.DATABASE_LOCAL, 
+    process.env.DATABASE_CLOUD, 
     `${process.env.DATABASE_CONFIG_1}`.json 
     ).then(()=>console.log('Database connected'))
 
@@ -35,14 +31,9 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // routes middleware
-app.use('/api',tagRoutes)
-app.use('/api',blogRoutes)
+app.use('/api',postRoutes)
 app.use('/api',authRoutes)
 app.use('/api',userRoutes)
-app.use('/api',categoryRoutes)
-
-
-
 
 // routes
 // app.get('/api', (req, res) => {

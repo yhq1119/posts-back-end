@@ -47,9 +47,16 @@ const userSchema = new mongoose.Schema({
         data: String,
         default: ''
     },
-    receiveColdDown:{
-        data:Date,
-        default: null
+    needDonationHelp: {
+        type: Boolean,
+        default: true
+    },
+    needHelpDesc:{
+        type: String,
+    },
+    receiveColdDown: {
+        type: Date,
+        default: new Date(new Date().setFullYear(new Date().getFullYear() + 1))
     }
 }, { timestamps: true })
 
@@ -68,10 +75,9 @@ userSchema.virtual('password')
 
 userSchema.methods = {
 
-    authenticate: function(plainText){
+    authenticate: function (plainText) {
         return this.encryptPassword(plainText) === this.hashed_password;
     },
-
     encryptPassword: function (password) {
         if (!password) return ''
         try {
@@ -79,11 +85,10 @@ userSchema.methods = {
         } catch (err) {
             return ''
         }
-    },makeSalt : function() {
-    return Math.round(new Date().valueOf() * Math.random() + '')
-}
+    }, 
+    makeSalt: function () {
+        return Math.round(new Date().valueOf() * Math.random() + '')
+    }
 },
-
-
 
 module.exports = mongoose.model('User', userSchema)
